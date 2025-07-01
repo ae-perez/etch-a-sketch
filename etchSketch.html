@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etch-a-Sketch</title>
+</head>
+
+<body>
+    <h1 class="modak-regular">Etch-A-Sketch</h1>
+    <button id="grid-size">Enter Grid Size</button>
+    <div id="container"></div>
+
+    <script>
+        const colors = ['FF845E', 'FFE382', 'D7F9F1', '9AD4D6', 'C9BBF4']; // colors for hover
+        const container = document.getElementById('container');
+
+        // create the original grid
+        for (let i = 0; i < 256; i++) {
+            const square = document.createElement('div');
+            square.className = "sqr";
+            container.appendChild(square);
+
+            // add the hover effect on square
+            square.addEventListener("mouseover", () => {
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                event.target.style.backgroundColor = `#${color}`;
+            });
+        }
+
+        // add prompt to button and create new grid
+        document.getElementById('grid-size').addEventListener("click", () => {
+            let size = prompt(`Enter the number of squares per side. (Examples: 16 = 16 * 16)`);
+
+            if (size > 100 || isNaN(size)) {
+                size = prompt('Please enter a number less than 100');
+            }
+
+            // delete the squares to create new squares that will fit perfectly into grid
+            container.innerHTML = '';
+
+            let sqaureSize = (672 / size) - 2; // formula to determine the size of the new squares
+
+
+            for (let i = 0; i < size * size; i++) {
+                const square = document.createElement('div');
+                square.className = "sqr";
+                container.appendChild(square);
+
+                square.addEventListener("mouseover", () => {
+                    let color = colors[Math.floor(Math.random() * colors.length)];
+                    event.target.style.backgroundColor = `#${color}`;
+                });
+            }
+
+            let squares = document.getElementsByClassName('sqr');
+            for (let square of squares) {
+                square.style.width = `${sqaureSize}px`;
+                square.style.height = `${sqaureSize}px`;
+            }
+        });
+
+    </script>
+</body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Modak&display=swap');
+
+    .modak-regular {
+        font-family: "Modak", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 80px;
+        margin: 0;
+    }
+
+    body {
+        margin: 0;
+        background-color: black;
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+    }
+
+    button {
+        margin: 0px auto 40px auto;
+        display: block;
+        width: auto;
+        height: 50px;
+        font-size: 20px;
+        font-weight: 200;
+        color: white;
+        letter-spacing: 1px;
+        padding: 13px 20px 13px;
+        outline: 0;
+        border: 1px solid white;
+        cursor: pointer;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    button:after {
+        content: "";
+        background-color: #C9BBF4;
+        width: 100%;
+        z-index: -1;
+        position: absolute;
+        height: 100%;
+        top: 7px;
+        left: 7px;
+        transition: 0.2s;
+    }
+
+    button:hover:after {
+        top: 0px;
+        left: 0px;
+    }
+
+    @media (min-width: 768px) {
+        button {
+            padding: 13px 50px 13px;
+        }
+    }
+
+    #container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 672px;
+        /* this needs to be calculated */
+        height: 672px;
+        /* this needs to be calculated */
+        margin: 0 auto;
+        border: 1px solid white;
+    }
+
+    .sqr {
+        border: 1px solid white;
+        padding: 0;
+        margin: 0;
+        width: 40px;
+        /* this needs to be calculated */
+        height: 40px;
+        /* this needs to be calculated */
+        background-color: black;
+    }
+</style>
+
+</html>
